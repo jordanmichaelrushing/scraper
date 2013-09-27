@@ -12,11 +12,11 @@
   <tr>
     <td><%= link_to script.upc, script %></td>
     <td><%= link_to 'Edit', edit_script_path(script) %></td>
-    <td><%= link_to 'Destroy', script, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Destroy', script, method: :delete, data: { confirm: 'Are you sure?' }, id: "red" %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New UPC', new_script_path %>
+<%= link_to 'New UPC', new_script_path, id: "blue" %>

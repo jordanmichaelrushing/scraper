@@ -512,7 +512,7 @@ aside {
   background-image: linear-gradient(top, #7f7f7f, #191919);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#'7f7f7f, endColorstr='#'191919, GradientType=0);
   margin-top: -10px;
-  height: 60px;
+  height: 100px;
 }
 
 .navbar-search {
@@ -647,10 +647,11 @@ h8 {
 #logo {
   moz-border-radius: 6px;
   border-radius: 6px;
-	float: left;
-	margin-top: 16px;
-  margin-right: 10px;
-  width: 135px;
+  float: none;
+  margin-top: 6px;
+  margin-left: 34.5%;
+  width: 335px;
+  height: 86.85px;
 	&:hover {
     opacity: 0.7;
 		color: #fff;
@@ -658,6 +659,23 @@ h8 {
 	}
 }
 
+#tall {
+  height: 30px;
+}
+
+#red {
+  color: red;
+}
+
+#blue {
+  color: blue;
+}
+lays {
+  width: 75%;
+  display: block;
+  margin-left: 12.5%;
+  margin-right: 12.5%;
+}
 
 
 /* footer */

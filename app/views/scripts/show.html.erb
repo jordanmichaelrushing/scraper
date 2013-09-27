@@ -4,15 +4,24 @@
 <% amazon_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=#{@script.upc}" %>
 <% goog_url = "http://www.google.com/search?hl=en&tbm=shop&q=#{@script.upc}" %>
 <% a_temp_doc = Nokogiri::HTML(open(amazon_url)) %>
-<% if a_temp_doc.at_xpath('//*[@id="noResultsTitle"]') %>
+
+<% if a_temp_doc.at('#result_0 a') %>
   <% a_real_url = a_temp_doc.at('#result_0 a')[:href] %>
 
   <% doc = Nokogiri::HTML(open(a_real_url)) %>
   <% doc.css("#handleBuy").each do |item| %>
     <% title = item.at_css("#btAsinTitle").content %>
-    <% price = item.at_css(".priceLarge").text[/\$[0-9\.]+/] %>
+    <% if item.at_css('.buyNewOffers .rentPrice') %>
+      <% price = item.at_css(".buyNewOffers .rentPrice").text[/\$[0-9\.]+/] %>
+    <% else %>
+      <% price = item.at_css(".priceLarge").text[/\$[0-9\.]+/] %>
+    <% end %>
     <% ship = item.at_css("#actualPriceExtraMessaging b").content %>
-    <% stars = item.at_css('span.asinReviewsSummary a').text %>
+    <% if item.at_css('span.asinReviewsSummary a') %>
+      <% stars = item.at_css('span.asinReviewsSummary a').text %>
+    <% else %>
+      <% stars = "No stars yet..." %>
+    <% end %>
     <% reviews = item.xpath('//*[@id="handleBuy"]/div[2]/span[1]/span/a').text %>
     <% if item.at_css("#amsPopoverTrigger a") == nil  %>
       <% if item.at_css(".parseasinTitle+ span a") == nil %>
@@ -51,6 +60,8 @@
       <% csv << ["#{reviews}"] %>
     <% end %>
   <% end %>
+<% else %>
+  <%= "No results from Amazon Marketplace.." %><br><br>
 <% end %>
 
 <br>
@@ -75,6 +86,8 @@
       <% csv << ["#{Time.now.strftime('%m/%d/%Y %H:%M')}"] %>
     <% end %>
   <% end %>
+<% else %>
+  <%= "No results from Google Shopping..." %><br>
 <% end %>
 
 <%= link_to 'Edit', edit_script_path(@script) %> |

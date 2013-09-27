@@ -4,7 +4,7 @@
 <% amazon_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=#{@script.upc}" %>
 <% goog_url = "http://www.google.com/search?hl=en&tbm=shop&q=#{@script.upc}" %>
 <% a_temp_doc = Nokogiri::HTML(open(amazon_url)) %>
-<% unless a_temp_doc.css("h1#noResultsTitle").text.nil? %>
+<% if a_temp_doc.at_xpath('//*[@id="noResultsTitle"]') %>
   <% a_real_url = a_temp_doc.at('#result_0 a')[:href] %>
 
   <% doc = Nokogiri::HTML(open(a_real_url)) %>

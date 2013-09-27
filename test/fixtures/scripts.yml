@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  upc: 1
+  title: MyString
+  model: MyString
+  base: 9.99
+  shipping: 9.99
+  total: 9.99
+  source: MyString
+  top_seller: MyString
+  offers: 1
+  rating: 9.99
+  feedback_count: 1
+
+two:
+  upc: 1
+  title: MyString
+  model: MyString
+  base: 9.99
+  shipping: 9.99
+  total: 9.99
+  source: MyString
+  top_seller: MyString
+  offers: 1
+  rating: 9.99
+  feedback_count: 1

@@ -1,0 +1,81 @@
+<h1>UPC: <%= "#{@script.upc}" %></h1>
+<p id="notice"><%= notice %></p>
+
+<% amazon_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=#{@script.upc}" %>
+<% goog_url = "http://www.google.com/search?hl=en&tbm=shop&q=#{@script.upc}" %>
+<% a_temp_doc = Nokogiri::HTML(open(amazon_url)) %>
+<% if a_temp_doc.at_css("#noResultsTitle").nil? %>
+  <% a_real_url = a_temp_doc.at('#result_0 a')[:href] %>
+
+  <% doc = Nokogiri::HTML(open(a_real_url)) %>
+  <% doc.css("#handleBuy").each do |item| %>
+    <% title = item.at_css("#btAsinTitle").content %>
+    <% price = item.at_css(".priceLarge").text[/\$[0-9\.]+/] %>
+    <% ship = item.at_css("#actualPriceExtraMessaging b").content %>
+    <% stars = item.at_css('span.asinReviewsSummary a').text %>
+    <% reviews = item.xpath('//*[@id="handleBuy"]/div[2]/span[1]/span/a').text %>
+    <% if item.at_css("#amsPopoverTrigger a") == nil  %>
+      <% if item.at_css(".parseasinTitle+ span a") == nil %>
+        <% top = "Amazon" %>
+      <% else %>
+        <% top = item.at_css(".parseasinTitle+ span a").text %>
+      <% end %>
+    <% else %>
+      <% top = item.at_css("#amsPopoverTrigger a").text %>
+    <% end %>
+
+    <% if ship == "FREE Shipping" %>
+      <% total = price %>
+    <% else %>
+      <% total = price.to_i + ship.to_i %>
+    <% end %>
+    <%= "From site: Amazon" %><br>
+    <%= "Model: #{title} - Item Price: #{price}" %><br>
+    <% if ship == "FREE Shipping" %>
+      <%= "#{ship}, & total price: #{total}" %><br>
+    <% else %>
+      <%= "shipping: $#{ship}, total price: $#{total}" %><br>
+    <% end %>
+    <%= "Top Seller: #{top}" %><br>
+    <%= "#{stars}" %><br>
+    <%= "#{reviews}" %><br>
+
+    <% File.open("amazon.csv", "ab") do |csv| %>
+      <% csv << ["Site", "Amazon"] %>
+      <% csv << ["Item Price", "#{price}"] %>
+      <% csv << ["Shipping", "#{ship}"] %>
+      <% csv << ["Total Price", "#{total}"] %>
+      <% csv << ["Top Seller", "#{top}"] %>
+      <% csv << ["UPC #", "#{@script.upc}"]  %>
+      <% csv << ["#{stars}"] %>
+      <% csv << ["#{reviews}"] %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<br>
+
+<% g_doc = Nokogiri::HTML(open(goog_url)) %>
+<% if (g_doc.at('p:nth-child(1)').nil?) %>
+  <% g_doc.css("#ires").each do |item| %>
+    <% title = item.at_css("#ires , .pslimain a").content %>
+    <% price = item.css(".psliprice b").first.content[/[0-9\.]+/] %>
+    <% top = item.css('cite').first.text %>
+    <% reviews = item.css('cite[4] a').text %>
+    <%= "From site: Google" %><br>
+    <%= "Model: #{title} - Item Price: #{price}" %><br>
+    <%= "Top Seller: #{top}" %><br>
+    <%= "#{reviews}" %><br>
+
+    <% File.open("google.csv", "ab") do |csv| %>
+      <% csv << ["Site", "Google"] %>
+      <% csv << ["Item Price", "#{price}"] %>
+      <% csv << ["Top Seller", "#{top}"] %>
+      <% csv << ["UPC #", "#{@upc}"] %>
+      <% csv << ["#{Time.now.strftime('%m/%d/%Y %H:%M')}"] %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= link_to 'Edit', edit_script_path(@script) %> |
+<%= link_to 'Back', scripts_path %>

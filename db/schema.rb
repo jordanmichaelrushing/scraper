@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(:version => 20130925052507) do
 
   create_table "scripts", :force => true do |t|
-    t.integer  "upc"
+    t.string   "upc"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

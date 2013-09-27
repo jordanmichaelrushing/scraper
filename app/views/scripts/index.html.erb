@@ -11,7 +11,9 @@
 <% @scripts.each do |script| %>
   <tr>
     <td><%= link_to script.upc, script %></td>
+    <td></td>
     <td><%= link_to 'Edit', edit_script_path(script) %></td>
+    <td></td>
     <td><%= link_to 'Destroy', script, method: :delete, data: { confirm: 'Are you sure?' }, id: "red" %></td>
   </tr>
 <% end %>
@@ -19,4 +21,4 @@
 
 <br />
 
-<%= link_to 'New UPC', new_script_path, id: "blue" %>
+<%= link_to 'New UPC', new_script_path, class: "btn btn-big btn-primary", id: "sign_btn2" %>

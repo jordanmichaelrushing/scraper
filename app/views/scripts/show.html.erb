@@ -12,11 +12,15 @@
   <% doc.css("#handleBuy").each do |item| %>
     <% title = item.at_css("#btAsinTitle").content %>
     <% if item.at_css('.buyNewOffers .rentPrice') %>
-      <% price = item.at_css(".buyNewOffers .rentPrice").text[/\$[0-9\.]+/] %>
+      <% price = item.at_css(".buyNewOffers .rentPrice").text[/[0-9\.]+/] %>
     <% else %>
-      <% price = item.at_css(".priceLarge").text[/\$[0-9\.]+/] %>
+      <% price = item.at_css(".priceLarge").text[/[0-9\.]+/] %>
     <% end %>
-    <% ship = item.at_css("#actualPriceExtraMessaging b").content %>
+    <% if item.at_css("#actualPriceExtraMessaging b") %>
+      <% ship = item.at_css("#actualPriceExtraMessaging b").content %>
+    <% else %>
+      <% ship = item.at_css(".plusShippingText").content[/[0-9\.]+/] %>
+    <% end %>
     <% if item.at_css('span.asinReviewsSummary a') %>
       <% stars = item.at_css('span.asinReviewsSummary a').text %>
     <% else %>
@@ -39,9 +43,9 @@
       <% total = price.to_i + ship.to_i %>
     <% end %>
     <%= "From site: Amazon" %><br>
-    <%= "Model: #{title} - Item Price: #{price}" %><br>
+    <%= "Model: #{title} - Item Price: $#{price}" %><br>
     <% if ship == "FREE Shipping" %>
-      <%= "#{ship}, & total price: #{total}" %><br>
+      <%= "#{ship}, & total price: $#{total}" %><br>
     <% else %>
       <%= "shipping: $#{ship}, total price: $#{total}" %><br>
     <% end %>

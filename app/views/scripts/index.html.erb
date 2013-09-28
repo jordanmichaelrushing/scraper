@@ -10,11 +10,17 @@
 
 <% @scripts.each do |script| %>
   <tr>
-    <td><%= link_to script.upc, script %></td>
+    <td><h6><%= link_to script.upc, script %></h6></td>
     <td></td>
-    <td><%= link_to 'Edit', edit_script_path(script) %></td>
     <td></td>
-    <td><%= link_to 'Destroy', script, method: :delete, data: { confirm: 'Are you sure?' }, id: "red" %></td>
+    <td></td>
+    <td></td>
+    <td><h3><%= link_to 'Edit', edit_script_path(script) %></h3></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><h3><%= link_to 'Destroy', script, method: :delete, data: { confirm: 'Are you sure?' }, id: "red" %></h3></td>
   </tr>
 <% end %>
 </table>

@@ -351,6 +351,10 @@ aside {
 
 /* sidebar */
 
+a:visited {
+  color: black;
+}
+
 aside {
 	section {
 		padding: 10px;
@@ -485,6 +489,7 @@ h1 {
 
 h3 {
   padding-left: 20px;
+  color: black;
 }
 
 l1 {
@@ -521,11 +526,11 @@ h4 {
 
 h6 {
   text-align: center;
-  font-size: 28pt;
-  letter-spacing: 12px;
+  font-size: 20pt;
+  letter-spacing: 2px;
   border-bottom: 1px solid #ddd;
   margin: 0;
-  text-shadow: 5px 5px 5px #888888;
+  text-shadow: 5px 5px 7px #aaa;
 }
 
 h8 {
